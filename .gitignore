@@ -1,6 +1,5 @@
 # Project exclude paths
 /target/
-/.idea/
-/log/
-myTank.iml
 .idea/
+log/
+myTank.iml
