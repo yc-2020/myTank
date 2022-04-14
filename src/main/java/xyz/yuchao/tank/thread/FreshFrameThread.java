@@ -26,11 +26,13 @@ public class FreshFrameThread extends Thread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//            logger.info("当前存活tank数量{},子弹数量{}", tankList.size(), bulletList.size());
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+            logger.info("当前存活tank数量{},子弹数量{}", tankList.size(), bulletList.size());
             frame.repaint();
         }
     }

@@ -53,11 +53,14 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-//        mainTank.paint(g);
+        if(mainTank.isLiveFlag()){
+            mainTank.paint(g);
+        }
         for (Bullet bullet : bulletList) {
             for (Tank tank : tankList) {
                 bullet.collideWith(tank);
             }
+            bullet.collideWith(mainTank);
         }
         for (int i = 0; i < bulletList.size(); i++) {
             Bullet bullet = bulletList.get(i);

@@ -3,10 +3,12 @@ package xyz.yuchao.tank;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xyz.yuchao.tank.constant.CommonConstant;
 import xyz.yuchao.tank.enums.Dir;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import static xyz.yuchao.tank.constant.CommonConstant.*;
 import static xyz.yuchao.tank.resource.TankResource.*;
@@ -38,7 +40,7 @@ public class Tank {
     /**
      * 移动标记
      */
-    private boolean moving = false;
+    private boolean moving = true;
 
     /**
      * 存活标记
@@ -48,9 +50,15 @@ public class Tank {
     /**
      * 队伍
      */
-    private String team = "1";
+    private String team;
 
+
+    /**
+     * 碰撞体积
+     */
     private Rectangle tankRectangle;
+
+    private Random random = new Random();
 
 
     public Tank(int x, int y, Dir dir, String team) {
@@ -156,14 +164,25 @@ public class Tank {
         y = y < 20 ? 20 : y;
         y = y > GAME_HEIGHT - 50 ? GAME_HEIGHT - 50 : y;
         collideWith();
-
-        tankRectangle.setLocation(x,y);
+        tankRectangle.setLocation(x, y);
+        if(TEAM_COMPUTER.equals(team)){
+            if(random.nextInt(100)>95){
+                randomDir();
+            }
+            if(random.nextInt(100)>80){
+                fire();
+            }
+        }
     }
 
     public void paint(Graphics g) {
         changeDir();
         g.drawImage(nowImage, x, y, null);
         move();
+    }
+
+    private void randomDir(){
+        dir=Dir.values()[random.nextInt(4)];
     }
 
     private void changeDir() {
@@ -187,14 +206,14 @@ public class Tank {
     }
 
     public void fire() {
-        bulletList.add(new Bullet(x, y, mainTank.getDir(), this.team));
+        bulletList.add(new Bullet(x, y, dir, this.team));
     }
 
     public void collideWith() {
         logger.info("当前坦克位置x:{}y:{}", this.getTankRectangle().getX(), this.getTankRectangle().getY());
         for (int i = 0; i < tankList.size(); i++) {
             Tank tank = tankList.get(i);
-            if(this==tank){
+            if (this == tank) {
                 continue;
             }
             logger.info("当前坦克{}位置x:{}y:{}", i, tank.getTankRectangle().getX(), tank.getTankRectangle().getY());
@@ -205,4 +224,5 @@ public class Tank {
             }
         }
     }
+
 }

@@ -28,7 +28,7 @@ public interface CommonConstant {
     /**
      * 坦克速度
      */
-    Integer TANK_SPEED = 30;
+    Integer TANK_SPEED = 5;
     /**
      * 玩家1
      */
@@ -50,11 +50,16 @@ public interface CommonConstant {
     Integer tankNum=5;
 
     /**
+     * 电脑
+     */
+    String TEAM_COMPUTER="TEAM_COMPUTER";
+
+    /**
      * 添加坦克
      */
     static void addTank(){
         for(int i=0;i<tankNum;i++){
-            CommonConstant.tankList.add(new Tank(100+i*50,400, Dir.UP,"2"));
+            CommonConstant.tankList.add(new Tank(100+i*50,400, Dir.UP,TEAM_COMPUTER));
         }
     }
 }
